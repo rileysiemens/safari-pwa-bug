@@ -10,24 +10,36 @@
 		/>
 	</head>
 	<body style="margin: 0">
-		<div style="display: flex; flex-direction: column; height: 100vh; position: relative">
-			<div id="header" style="width: 100%; height: 64px; background-color: bisque; display: flex; justify-content: center; align-items: center;"></div>
-			<div id="body" style="width: 100%; background-color: darkgray; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-grow: 1;"></div>
+		<div id="body" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; position: relative">
+			<div style="width: 100%; height: 64px; background-color: bisque; display: flex; justify-content: center; align-items: center;">
+				<h1>Instructions</h1>
+			</div>
+			<div style="background-color: azure; display: flex; flex-direction: column; justify-content: center; align-items: center; flex-grow: 1; padding: 16px">
+
+				<ol>
+					<li>Open this webpage on an <u>iPhone in Safari</u></li>
+					<li>Open the share options, and click <u>Add to Home Screen</u></li>
+					<li>Tap on the newly installed version of this app to open it an standalone browser.</li>
+					<li>Take note of the <u>height in pixels</u></li>
+					<li><u>Tap this link</u> to open it in the internal browser: <a href="https://example.com">example.com</a></li>
+					<li>Notice that the height in pixels is <u>less than previous</u>.  Also that absolutely positioned footer is not at the bottom of the screen anymore.</li>
+				</ol>
+				<br />
+				<p id="height" style="text-align: center;">The total height of this page is 100vh</p>
+			</div>
 			<div id="footer" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background-color: aquamarine; display: flex; justify-content: center; align-items: center;">
 				This footer is positioned absolutely at the bottom of the screen
 			</div>
 		</div>
 		<script>
-			var header = document.querySelector('#header')
-			var body = document.querySelector('#body')
-			var headerHeight = header.getBoundingClientRect().height
-			var bodyHeight = body.getBoundingClientRect().height
-
-			header.innerHTML = `<p>The height of this header is ${headerHeight}</p>`
-			body.innerHTML = `<p>The total height of this page is 100vh, or ${bodyHeight + headerHeight}px</p><br /><p><a href="https://example.com">Click this link</a></p>`
+			setInterval(() => {
+				var bodyHeight = document.getElementById('body').getBoundingClientRect().height
+				document.getElementById('height').innerText = `The total height of this page is 100vh, which equals ${bodyHeight}px`
+			}, 500)
 		</script>
 		 <script src="/sw.js"></script>
 		 <script>
+			// adding a baseline service worker so that this app will be installable
 			 if (!navigator?.serviceWorker?.controller) {
 				 navigator.serviceWorker.register("/sw.js").then(reg => {
 					 console.log('service worker registered', reg)
